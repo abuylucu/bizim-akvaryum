@@ -21,19 +21,21 @@
   <div id="topbar">
     <div class="pills"><div class="pill" id="coins">🪙 <span>0</span></div><div class="pill" id="food">🍤 <span>0</span></div></div>
     <div class="pill" id="level"><b>Sv 1</b><div class="xpbar"><i></i></div></div>
-    <div class="pill" id="partner"><span class="dot"></span><span class="pname">…</span></div>
+    <div class="pill" id="partner"><span class="mico">☰</span><span class="dot"></span><span class="pname">…</span></div>
   </div>
   <div id="tankbar"><div id="tanktabs"></div><div id="tankname"></div></div>
-  <div id="hint" class="hidden">Sol alttaki araçları kullan: 🖐️ bilgi · 🍤 yem · 🖌️ temizlik<br>Üstteki numaralar akvaryumların · Altın baloncuk: para</div>
+  <div id="hint" class="hidden">Soldaki araçlar: 🖐️ bilgi · 🍤 yem · 🖌️ temizlik · 🥅 taşıma<br>Altın baloncuk: para</div>
   <div id="tools">
     <button data-tool="hand" class="on" title="El">🖐️</button>
     <button data-tool="food" title="Yem kutusu">🍤</button>
     <button data-tool="brush" title="Fırça">🖌️</button>
+    <button data-tool="net" title="El ağı" aria-label="El ağı"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><defs><clipPath id="netclip"><path d="M9.3 7.6 C9.6 14 13 19.8 17 20.2 C19.6 18.6 21.2 13 20.6 7.6 Z"/></clipPath></defs><path d="M9.3 7.6 C9.6 14 13 19.8 17 20.2 C19.6 18.6 21.2 13 20.6 7.6" fill="rgba(255,255,255,.16)" stroke-width="1.3"/><g clip-path="url(#netclip)" stroke-width=".8" opacity=".85"><path d="M8 9h14M8 12h14M8 15h14M8 18h14M11 6v16M14 6v16M17 6v16M20 6v16"/></g><ellipse cx="14.95" cy="7.6" rx="5.65" ry="2.4" stroke-width="2"/><path d="M9.6 8.6L2.5 21.5" stroke-width="2.4"/></svg></button>
   </div>
   <div id="bottombar">
     <button data-panel="shop">🛒<span>Mağaza</span></button>
+    <button data-panel="tasks">🎯<span>Görevler</span><i id="taskdot" class="hidden"></i></button>
     <button data-panel="fishlist">🐠<span>Canlılar</span></button>
-    <button data-panel="tanks">🏠<span>Akvaryumlar</span></button>
+    <button data-panel="tanks">🏠<span>Akvaryum</span></button>
     <button data-panel="settings">⚙️<span>Ayarlar</span></button>
   </div>
 </div>
@@ -44,16 +46,28 @@
   <div class="sheet-inner"><button class="close" aria-label="Kapat">✕</button><div class="content"></div></div>
 </div>
 
-<div id="join" class="hidden">
-  <div class="joincard">
-    <div class="logo">🐠</div>
-    <h1>Bizim Akvaryum</h1>
-    <p class="sub">İkiniz için ortak bir akvaryum</p>
-    <label class="field">Adın<input id="jname" maxlength="16" placeholder="Adını yaz" autocomplete="off"></label>
-    <label class="field">Akvaryum kodu<input id="jroom" maxlength="12" autocapitalize="characters" autocomplete="off"></label>
-    <button id="jjoin" class="primary">Akvaryuma gir</button>
-    <button id="jnew" class="ghost">Yeni kod üret</button>
-    <p class="note" id="jmode"></p>
+<div id="menu" class="hidden">
+  <div class="joincard menucard">
+    <button class="close hidden" id="mclose" aria-label="Akvaryuma dön">✕</button>
+    <div id="mmain">
+      <div class="logo">🐠</div>
+      <h1>Bizim Akvaryum</h1>
+      <p class="sub">Ana menü</p>
+      <label class="field">Adın<input id="mname" maxlength="16" placeholder="Adını yaz" autocomplete="off"></label>
+      <button class="menubtn" id="msolo"><span class="mi">🐠</span><span class="mt"><b>Tek kişilik akvaryum</b><small id="msoloSub">Kendi akvaryumun</small></span><span class="go">›</span></button>
+      <button class="menubtn" id="mduo"><span class="mi">👥</span><span class="mt"><b>2 kişilik akvaryum</b><small id="mduoSub">Ortak akvaryum</small></span><span class="go">›</span></button>
+      <div id="mshare" class="hidden"><div class="code" id="mcode"></div><button class="ghost" id="mshareBtn">🔗 Davet linkini paylaş</button></div>
+      <button class="linklike" id="mduoAlt">🔑 Kodla katıl ya da yeni 2 kişilik akvaryum kur</button>
+      <div id="mduobox" class="hidden">
+        <label class="field">Akvaryum kodu<input id="mroom" maxlength="12" autocapitalize="characters" autocomplete="off"></label>
+        <button id="mjoin" class="primary">Akvaryuma gir</button>
+        <button id="mnew" class="ghost">Yeni kod üret</button>
+        <p class="note">Aynı kodu giren 2 kişi aynı akvaryumu paylaşır.</p>
+      </div>
+      <button class="menubtn" id="mhelp"><span class="mi">❓</span><span class="mt"><b>Nasıl oynanır?</b><small>Araçlar ve ipuçları</small></span><span class="go">›</span></button>
+      <p class="note" id="mmode"></p>
+    </div>
+    <div id="mhelpview" class="hidden"></div>
   </div>
 </div>
 
