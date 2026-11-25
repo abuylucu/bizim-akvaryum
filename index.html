@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b3d5c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Akvaryumumuz">
+<title>Bizim Akvaryum</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="tank"></canvas>
+
+<div id="hud" class="hidden">
+  <div id="topbar">
+    <div class="pills"><div class="pill" id="coins">🪙 <span>0</span></div><div class="pill" id="food">🍤 <span>0</span></div></div>
+    <div class="pill" id="level"><b>Sv 1</b><div class="xpbar"><i></i></div></div>
+    <div class="pill" id="partner"><span class="dot"></span><span class="pname">…</span></div>
+  </div>
+  <div id="hint" class="hidden">Suya dokun: yem at (yem paralı) · Kire dokun/sürt: temizle<br>Balığa dokun: bilgi, sat, eşleştir · Altın baloncuk: para</div>
+  <div id="bottombar">
+    <button data-panel="shop">🛒<span>Mağaza</span></button>
+    <button data-panel="fishlist">🐠<span>Balıklar</span></button>
+    <button data-panel="settings">⚙️<span>Ayarlar</span></button>
+  </div>
+</div>
+
+<div id="banner" class="hidden"></div>
+
+<div id="sheet" class="hidden">
+  <div class="sheet-inner"><button class="close" aria-label="Kapat">✕</button><div class="content"></div></div>
+</div>
+
+<div id="join" class="hidden">
+  <div class="joincard">
+    <div class="logo">🐠</div>
+    <h1>Bizim Akvaryum</h1>
+    <p class="sub">İkiniz için ortak bir akvaryum</p>
+    <label class="field">Adın<input id="jname" maxlength="16" placeholder="Adını yaz" autocomplete="off"></label>
+    <label class="field">Akvaryum kodu<input id="jroom" maxlength="12" autocapitalize="characters" autocomplete="off"></label>
+    <button id="jjoin" class="primary">Akvaryuma gir</button>
+    <button id="jnew" class="ghost">Yeni kod üret</button>
+    <p class="note" id="jmode"></p>
+  </div>
+</div>
+
+<div id="game" class="hidden"><canvas id="gamecanvas"></canvas><div id="gameui"></div></div>
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

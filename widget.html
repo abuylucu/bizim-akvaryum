@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b3d5c">
+<title>Widget Kurulumu · Bizim Akvaryum</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: linear-gradient(#1a6f9e, #0a3a5c) fixed; color: #fff; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: calc(env(safe-area-inset-top) + 20px) 18px 40px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { opacity: .8; margin: 0 0 18px; }
+  .card { background: rgba(4, 30, 48, .7); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 16px 18px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 8px; font-size: 19px; }
+  ol { padding-left: 22px; margin: 8px 0; }
+  li { margin: 6px 0; }
+  .code { font-weight: 800; letter-spacing: 3px; background: rgba(0,0,0,.3); padding: 2px 8px; border-radius: 6px; }
+  a.btn, button { display: block; width: 100%; text-align: center; border: 0; border-radius: 12px; padding: 13px; font: inherit; font-weight: 700; color: #fff; text-decoration: none;
+    background: linear-gradient(135deg, #ff6f9f, #ff8f5a); margin: 10px 0 4px; cursor: pointer; }
+  .ghost { background: rgba(255,255,255,.12) !important; }
+  .note { font-size: 13.5px; opacity: .8; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tabs button { margin: 0; padding: 10px; background: rgba(255,255,255,.1); }
+  .tabs button.on { background: linear-gradient(135deg, #ff6f9f, #ff8f5a); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🐠 Ana ekran widget'ı</h1>
+  <p class="sub">Akvaryumunuzun anlık görüntüsü: balıklar, para, yem, aç ya da hasta balıklar ve kir. Yaklaşık 15–30 dakikada bir yenilenir, dokununca oyun açılır.</p>
+  <p id="codeline" class="sub"></p>
+
+  <div class="tabs">
+    <button id="tIos">iPhone</button>
+    <button id="tAnd">Samsung / Android</button>
+  </div>
+
+  <div id="ios" class="card">
+    <h2> iPhone</h2>
+    <ol>
+      <li>App Store'dan ücretsiz <b>Scriptable</b> uygulamasını indir.</li>
+      <li>Aşağıdaki <b>Betiği kopyala</b> düğmesine bas.</li>
+      <li>Scriptable'ı aç → sağ üstteki <b>+</b> → kopyaladığını yapıştır → üstteki başlığa dokunup adını <b>Akvaryum</b> yap → <b>Done</b>.</li>
+      <li>Ana ekranda boş bir yere basılı tut → sol üstteki <b>+</b> (Düzenle → Widget Ekle) → <b>Scriptable</b> → orta boy widget'ı seç → ekle.</li>
+      <li>Widget'a basılı tut → <b>Widget'ı Düzenle</b> → Script: <b>Akvaryum</b>, When Interacting: <b>Open URL</b>, Parameter: akvaryum kodunuz<span id="pcode"></span>.</li>
+    </ol>
+    <a class="btn ghost" href="https://apps.apple.com/app/scriptable/id1405459188">Scriptable'ı App Store'da aç</a>
+    <button id="copy">📋 Betiği kopyala</button>
+    <p class="note" id="copied"></p>
+  </div>
+
+  <div id="and" class="card hidden">
+    <h2>🤖 Samsung / Android</h2>
+    <ol>
+      <li>Aşağıdaki düğmeyle <b>akvaryum-widget.apk</b> dosyasını indir.</li>
+      <li>İndirilen dosyaya dokun. Telefon "bilinmeyen kaynaklardan yüklemeye" izin isterse <b>Ayarlar → Bu kaynaktan izin ver</b> de, sonra <b>Yükle</b>.</li>
+      <li>Play Protect uyarı verirse <b>Yine de yükle</b> de (uygulama Play Store'da olmadığı için uyarı veriyor).</li>
+      <li><b>Akvaryum Widget</b> uygulamasını aç, akvaryum kodunu yaz<span id="acode"></span>, <b>Kaydet</b>'e bas.</li>
+      <li>Ana ekranda boş bir yere basılı tut → <b>Widget'lar</b> → <b>Akvaryum Widget</b> → ekrana sürükle.</li>
+    </ol>
+    <a class="btn" href="akvaryum-widget.apk">⬇️ APK'yı indir</a>
+    <p class="note">Sağ üstteki ⟳ ile widget'ı hemen yenileyebilirsin.</p>
+  </div>
+
+  <a class="btn ghost" href="./">← Oyuna dön</a>
+</main>
+<script>
+  const room = new URLSearchParams(location.search).get('oda') || localStorage.getItem('akv_room') || '';
+  if (room) {
+    document.getElementById('codeline').innerHTML = 'Akvaryum kodunuz: <span class="code">' + room.replace(/[^A-Z0-9]/gi, '') + '</span>';
+    document.getElementById('pcode').textContent = ' (' + room + ')';
+    document.getElementById('acode').textContent = ' (' + room + ')';
+  }
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const show = a => {
+    document.getElementById('ios').classList.toggle('hidden', a);
+    document.getElementById('and').classList.toggle('hidden', !a);
+    document.getElementById('tIos').classList.toggle('on', !a);
+    document.getElementById('tAnd').classList.toggle('on', a);
+  };
+  show(isAndroid);
+  document.getElementById('tIos').onclick = () => show(false);
+  document.getElementById('tAnd').onclick = () => show(true);
+  document.getElementById('copy').onclick = async () => {
+    const out = document.getElementById('copied');
+    try {
+      const src = await (await fetch('widget/akvaryum-widget.js', { cache: 'no-store' })).text();
+      await navigator.clipboard.writeText(src);
+      out.textContent = '✅ Kopyalandı! Şimdi Scriptable\'a yapıştır.';
+    } catch (e) {
+      out.textContent = 'Kopyalanamadı. Uzun basıp kopyalamak için betiği aç: ';
+      const a = document.createElement('a'); a.href = 'widget/akvaryum-widget.js'; a.textContent = 'akvaryum-widget.js'; a.style.color = '#ffd76b';
+      out.appendChild(a);
+    }
+  };
+</script>
+</body>
+</html>
