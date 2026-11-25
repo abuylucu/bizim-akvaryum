@@ -8,13 +8,48 @@ const GAME = "https://abuylucu.github.io/bizim-akvaryum/";
 const HUNGER_MS = 8 * 3600e3, DIRT_INT = 12 * 60e3, DIRT_MAX = 40, DIRT_HP = 3;
 // tür: [boy çarpanı, büyüme süresi (dk)]
 const SP = {
-  lepistes: [0.7, 180], neon: [0.6, 180], zebra: [0.65, 180], moli: [0.75, 180], japon: [0.85, 180],
-  platy: [0.7, 180], kilic: [0.8, 180], sumatra: [0.7, 180], gurami: [0.75, 180], kpapagan: [0.9, 180],
-  gramma: [0.7, 180], melek: [0.9, 600], beta: [0.85, 600], palyaco: [0.75, 600], cerrah: [0.9, 600],
-  kelebek: [0.8, 600], gokkusagi: [0.85, 600], balon: [0.8, 600], diskus: [1.0, 600], koi: [1.2, 600],
-  mandarin: [0.7, 600], arowana: [1.4, 600], papagan: [1.1, 600], aslan: [1.0, 600], imparator: [1.0, 600],
-  alev: [0.95, 1680], gece: [0.95, 1680], ejder: [1.5, 1680], yildiz: [0.9, 1680], ayisigi: [1.0, 1680],
-  kristal: [1.2, 1680], prenses: [1.0, 1680],
+  lepistes: [0.7, 180],
+  neon: [0.6, 180],
+  zebra: [0.65, 180],
+  moli: [0.75, 180],
+  japon: [0.85, 180],
+  platy: [0.7, 180],
+  kilic: [0.8, 180],
+  sumatra: [0.7, 180],
+  gurami: [0.75, 180],
+  kpapagan: [0.9, 180],
+  gramma: [0.7, 180],
+  melek: [0.9, 600],
+  beta: [0.85, 600],
+  palyaco: [0.75, 600],
+  cerrah: [0.9, 600],
+  kelebek: [0.8, 600],
+  gokkusagi: [0.85, 600],
+  balon: [0.8, 600],
+  diskus: [1.0, 600],
+  koi: [1.2, 600],
+  mandarin: [0.7, 600],
+  arowana: [1.4, 600],
+  papagan: [1.1, 600],
+  aslan: [1.0, 600],
+  imparator: [1.0, 600],
+  alev: [0.95, 1680],
+  gece: [0.95, 1680],
+  ejder: [1.5, 1680],
+  yildiz: [0.9, 1680],
+  ayisigi: [1.0, 1680],
+  kristal: [1.2, 1680],
+  prenses: [1.0, 1680],
+  pirana: [0.85, 600],
+  oskar: [1.25, 600],
+  murena: [1.6, 600],
+  kopek: [1.8, 1680],
+  salyangoz: [0.45, 180],
+  karides: [0.45, 180],
+  yengec: [0.6, 600],
+  kaplankarides: [0.5, 600],
+  istakoz: [1.0, 600],
+  kristalyengec: [0.75, 1680],
 };
 
 const code = ((args.widgetParameter || KOD || "") + "").trim().toUpperCase();
@@ -93,7 +128,12 @@ async function main() {
     return ctx.getImage();
   }
 
-  const now = Date.now(), fish = room.fish || {}, tank = room.tank || {};
+  const now = Date.now();
+  // çoklu akvaryum: ilk akvaryumu göster (eski sürümde room.tank)
+  const tids = Object.keys(room.tanks || {}).sort((a, b) => ((room.tanks[a].order || 0) - (room.tanks[b].order || 0)));
+  const tid = tids[0] || 't1', tank = (room.tanks && room.tanks[tid]) || room.tank || {};
+  const fish = {};
+  for (const id in room.fish || {}) if ((room.fish[id].tank || 't1') === tid) fish[id] = room.fish[id];
   let hungry = 0, sick = 0, count = 0;
 
   // süsler (sade)
